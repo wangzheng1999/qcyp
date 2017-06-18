@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.domain">
+	<class name="Car" table="car">
+		<id name="cid" column="cid" type="java.lang.Integer">
+			<generator class="identity" />
+		</id>
+		<property name="uid" column="uid" type="java.lang.Integer"></property>
+		<property name="name" column="name"></property>
+		<property name="money" column="money" type="java.lang.Double"></property>
+		<property name="num" column="num" type="java.lang.Integer"></property>
+	</class>
+</hibernate-mapping>

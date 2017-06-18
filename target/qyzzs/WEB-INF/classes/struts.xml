@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+
+	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.locale" value="zh_CN" />
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true" />
+	<constant name="struts.ui.theme" value="simple"></constant>
+
+
+	<!-- 开启访问类的静态方法的配置 -->
+	<package name="/" namespace="/" extends="struts-default">
+		<!-- goodsAction -->
+		<!-- <action name="testAction" class="goodsAction"> <result>res.jsp</result> 
+			</action> -->
+		<action name="createGoodsAction" class="goodsAction" method="create">
+			<result name="success" type="chain">
+				<param name="actionName">findAllGoodsAction</param>
+			</result>
+		</action>
+		<action name="findAllGoodsAction" class="goodsAction" method="selectAll">
+			<result>findallgoods.jsp</result>
+		</action>
+		<action name="findGoodsByKWord" class="goodsAction" method="selectByKWord">
+			<result>product.jsp</result>
+		</action>
+		<action name="findGoodsByGid" class="goodsAction" method="selectById">
+			<result>single.jsp</result>
+		</action>
+		<action name="upGoodsAction" class="goodsAction" method="update">
+			<result name="success" type="chain">
+				<param name="actionName">findAllGoodsAction</param>
+			</result>
+		</action>
+		<action name="findGoodsLikeKey" class="goodsAction" method="selectLikeKey">
+			<result>findallgoods.jsp</result>
+		</action>
+
+		<!-- userAction -->
+		<action name="loginAction" class="userAction" method="login">
+			<result name="success">/index.jsp</result>
+			<result name="input">/login.jsp</result>
+		</action>
+		<action name="regAction" class="userAction" method="reg">
+			<result name="success">/login.jsp</result>
+		</action>
+		<action name="exitAction" class="userAction" method="exit">
+			<result name="success">/index.jsp</result>
+		</action>
+		<action name="updateAction" class="userAction" method="update">
+			<result name="success">/uinfo.jsp</result>
+		</action>
+		<!-- ShopAction -->
+		<action name="showcarAction_buycar" class="shopAction" method="buycar">
+			<result name="showcar">/checkout.jsp</result>
+		</action>
+		<action name="showcarAction_delete" class="shopAction" method="delete">
+			<result name="showcar">/checkout.jsp</result>
+		</action>
+		<action name="showcarAction_clearshop" class="shopAction"
+			method="clearshop">
+			<result name="showcar">/checkout.jsp</result>
+		</action>
+		<action name="showcarAction_updateshop" class="shopAction"
+			method="updateshop">
+			<result name="showcar">/checkout.jsp</result>
+		</action>
+		<action name="showcarAction_w2db" class="shopAction" method="w2db">
+			<result name="success" type="chain">
+				<param name="actionName">findOrderByUidAction</param>
+			</result>
+		</action>
+
+		<!--DinDanAction -->
+		<action name="findOrderByUidAction" class="dinDanAction"
+			method="selectOrderByUid">
+			<result>/findallorder.jsp</result>
+		</action>
+		<action name="upOrderStatus" class="dinDanAction" method="updateOrderStatus">
+			<result name="success" type="chain">
+				<param name="actionName">findOrderByUidAction</param>
+			</result>
+		</action>
+		<action name="findAllOrder" class="dinDanAction" method="selectAllOrder">
+			<result>/findallorder.jsp</result>
+		</action>
+<!-- 商品注册action -->
+     <action name="gregister" class="gregisterAction" method="{*}">
+		<result name="input">/error.jsp</result>
+			<result name="success">/success.jsp</result>
+		</action>
+	</package>
+</struts>

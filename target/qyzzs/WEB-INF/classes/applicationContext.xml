@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="    
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd  
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd  
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd  
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+	<!-- 加载数据库属性配置文件 -->
+	<context:property-placeholder location="classpath:jdbc.properties" />
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass">
+			<value>${driverClass}</value>
+		</property>
+		<property name="jdbcUrl">
+			<value>${jdbcUrl}</value>
+		</property>
+		<property name="user">
+			<value>${user}</value>
+		</property>
+		<property name="password">
+			<value>${password}</value>
+		</property>
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:hibernate.cfg.xml" />
+		<property name="mappingResources">
+			<list>
+				<value>com/domain/Goods.hbm.xml</value>
+				<value>com/domain/Car.hbm.xml</value>
+				<value>com/domain/User.hbm.xml</value>
+				<value>com/domain/DinDan.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 配置DAO类 -->
+	<bean id="dinDanDAO" class="com.dao.impl.DinDaoDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="goodsDAO" class="com.dao.impl.GoodsDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="userDAO" class="com.dao.impl.UserDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="carDao" class="com.dao.impl.CarDAOimpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<!-- 配置Service类 -->
+	<bean id="dinDanService" class="com.service.impl.DinDanServiceImpl">
+		<property name="dinDanDAO" ref="dinDanDAO" />
+	</bean>
+	<bean id="goodsService" class="com.service.impl.GoodsServiceImpl">
+		<property name="goodsDAO" ref="goodsDAO" />
+	</bean>
+	<bean id="userService" class="com.service.impl.UserServiceImpl">
+		<property name="userDAO" ref="userDAO" />
+	</bean>
+	<bean id="carService" class="com.service.impl.CarServiceimpl">
+		<property name="cardao" ref="carDao" />
+	</bean>
+	<!-- 配置Action类 -->
+	<bean id="dinDanAction" class="com.action.DinDanAction" scope="prototype">
+		<property name="dinDanService" ref="dinDanService" />
+	</bean>
+	<bean id="goodsAction" class="com.action.GoodsAction" scope="prototype">
+		<property name="goodsService" ref="goodsService" />
+	</bean>
+	<bean id="userAction" class="com.action.UserAction" scope="prototype">
+		<property name="userService" ref="userService" />
+	</bean>
+	<bean id="shopAction" class="com.action.ShopAction" scope="prototype">
+		<property name="carservice" ref="carService" />
+	</bean>
+	<!-- 商品注册 -->
+	<bean id="gregisterAction" class="com.action.Gregister" scope="prototype">
+	</bean>
+	<!-- 配置事物管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager" />
+</beans>

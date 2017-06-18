@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.domain">
+	<class name="Goods" table="goods">
+		<id name="gid" column="gid" type="java.lang.Integer">
+		</id>
+		<property name="name" column="name"></property>
+		<property name="date" column="date"></property>
+		<property name="info" column="info"></property>
+		<property name="address" column="address"></property>
+		<property name="sum" column="sum" type="java.lang.Integer"></property>
+		<property name="price" column="price" type="java.lang.Double"></property>
+		<property name="category" column="category"></property>
+		<property name="flag" column="flag" type="java.lang.Integer"></property>
+	</class>
+</hibernate-mapping>
